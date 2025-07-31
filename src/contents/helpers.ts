@@ -18,6 +18,7 @@ import {
   Pen,
   Plus,
   Settings,
+  Globe,
   Smile,
   SquarePen,
   Star,
@@ -363,6 +364,7 @@ export function loadIcons() {
         Coins,
         Bell,
         Plus,
+        Globe,
       },
     })
   }, 0)
