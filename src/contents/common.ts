@@ -116,10 +116,10 @@ void (async () => {
 
     if (alt === 'Light') {
       $toggle.prop('title', '使用深色主题')
-      $toggleImg.replaceWith('<i data-lucide="moon"></i>')
+      $toggleImg.replaceWith('<i data-lucide="Moon"></i>')
     } else if (alt === 'Dark') {
       $toggle.prop('title', '使用浅色主题')
-      $toggleImg.replaceWith('<i data-lucide="sun"></i>')
+      $toggleImg.replaceWith('<i data-lucide="Sun"></i>')
     }
   }
 

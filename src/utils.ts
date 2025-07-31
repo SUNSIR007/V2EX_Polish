@@ -366,7 +366,15 @@ export async function setStorage<T extends StorageKey>(
           }
           controller = new AbortController()
 
-          setV2P_Settings(settings, controller.signal)
+          // 使用 try-catch 来捕获 AbortError，避免未处理的 Promise 错误
+          try {
+            await setV2P_Settings(settings, controller.signal)
+          } catch (error) {
+            // 忽略 AbortError，这是正常的取消操作
+            if (error instanceof Error && error.name !== 'AbortError') {
+              console.warn('设置同步失败:', error)
+            }
+          }
         }
       } catch (err) {
         if (String(err).includes('QUOTA_BYTES_PER_ITEM quota exceeded')) {

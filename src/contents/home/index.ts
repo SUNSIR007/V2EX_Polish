@@ -4,6 +4,7 @@ import { $infoCard } from '../globals'
 import { loadIcons } from '../helpers'
 import { handleHotTopics } from './hot-topics'
 import { handleTopicList } from './topic-list'
+import { initLayoutImprovements } from '../layout-improvements'
 
 void (async () => {
   const storage = await getStorage()
@@ -39,6 +40,9 @@ void (async () => {
   }
 
   handleHotTopics()
+
+  // 初始化布局改进
+  initLayoutImprovements()
 
   loadIcons()
 })()
