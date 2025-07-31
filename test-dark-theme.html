@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2EX Polish 黑夜模式测试</title>
+    <link rel="stylesheet" href="extension/css/v2ex-theme-var.css">
+    <link rel="stylesheet" href="extension/css/v2ex-theme-dark.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--v2p-color-button-background);
+            color: var(--v2p-color-button-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--v2p-color-button-background-hover);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--v2p-color-bg-content);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--v2p-box-shadow);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--v2p-color-foreground);
+        }
+        
+        .content-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--v2p-color-bg-reply);
+            border-radius: 8px;
+            border: 1px solid var(--v2p-color-border);
+        }
+        
+        .content-section h3 {
+            color: var(--v2p-color-foreground);
+            margin-top: 0;
+        }
+        
+        .content-section p {
+            color: var(--v2p-color-font-secondary);
+            line-height: 1.6;
+        }
+        
+        .color-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .color-item {
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .bg-main { background: var(--v2p-color-background); color: var(--v2p-color-foreground); }
+        .bg-content { background: var(--v2p-color-bg-content); color: var(--v2p-color-foreground); }
+        .bg-button { background: var(--v2p-color-button-background); color: var(--v2p-color-button-foreground); }
+        .bg-reply { background: var(--v2p-color-bg-reply); color: var(--v2p-color-foreground); }
+        
+        .button-demo {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: var(--v2p-color-button-background);
+            color: var(--v2p-color-button-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: var(--v2p-color-button-background-hover);
+            color: var(--v2p-color-button-foreground-hover);
+        }
+        
+        .scrollbar-demo {
+            height: 100px;
+            overflow-y: auto;
+            background: var(--v2p-scrollbar-background-color);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 6px;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        
+        .scrollbar-demo::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .scrollbar-demo::-webkit-scrollbar-track {
+            background: var(--v2p-scrollbar-background-color);
+        }
+        
+        .scrollbar-demo::-webkit-scrollbar-thumb {
+            background: var(--v2p-color-border);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="v2p-theme-dark-default">
+    <button class="theme-toggle" onclick="toggleTheme()">切换主题</button>
+    
+    <div class="container">
+        <div class="header">
+            <h1>V2EX Polish 黑夜模式测试</h1>
+            <p>测试新的黑色背景主题效果</p>
+        </div>
+        
+        <div class="content-section">
+            <h3>主要改进</h3>
+            <p>将黑夜模式的背景色从灰色调 (#1c2128) 改为纯黑色 (#000000)，提供更深邃的视觉体验。</p>
+            <p>同时调整了内容区域背景色为深黑色 (#111111)，滚动条背景色为深灰黑色 (#1a1a1a)，确保整体视觉协调。</p>
+        </div>
+        
+        <div class="content-section">
+            <h3>颜色展示</h3>
+            <div class="color-demo">
+                <div class="color-item bg-main">主背景色<br>#000000</div>
+                <div class="color-item bg-content">内容背景色<br>#111111</div>
+                <div class="color-item bg-button">按钮背景色<br>#373e47</div>
+                <div class="color-item bg-reply">回复背景色<br>#2d333b</div>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h3>按钮效果</h3>
+            <div class="button-demo">
+                <button class="btn">普通按钮</button>
+                <button class="btn">悬停测试</button>
+                <button class="btn">交互效果</button>
+            </div>
+        </div>
+        
+        <div class="content-section">
+            <h3>滚动条效果</h3>
+            <div class="scrollbar-demo">
+                <p>这是一个可滚动的区域，用于测试滚动条的样式效果。</p>
+                <p>滚动条背景色已调整为深灰黑色 (#1a1a1a)。</p>
+                <p>请向下滚动查看滚动条效果。</p>
+                <p>新的黑色主题提供了更好的视觉对比度。</p>
+                <p>文字在黑色背景上更加清晰易读。</p>
+                <p>整体视觉效果更加现代化和专业。</p>
+                <p>这种深色主题有助于减少眼部疲劳。</p>
+                <p>特别适合在夜间或低光环境下使用。</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            if (body.classList.contains('v2p-theme-dark-default')) {
+                body.classList.remove('v2p-theme-dark-default');
+                body.classList.add('v2p-theme-light-default');
+            } else {
+                body.classList.remove('v2p-theme-light-default');
+                body.classList.add('v2p-theme-dark-default');
+            }
+        }
+    </script>
+</body>
+</html>
