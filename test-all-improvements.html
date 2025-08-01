@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2EX Polish 全部改进测试</title>
+    <link rel="stylesheet" href="extension/css/v2ex-theme-var.css">
+    <link rel="stylesheet" href="extension/css/v2ex-theme-dark.css">
+    <link rel="stylesheet" href="extension/css/v2ex-layout-improvements.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, sans-serif;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        /* 模拟V2EX的顶部导航栏 */
+        #Top {
+            height: var(--v2p-nav-height);
+            background-color: var(--v2p-color-bg-content);
+            border-bottom: 1px solid var(--v2p-color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        #Top .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .site-nav {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tools {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--v2p-color-foreground);
+            text-decoration: none;
+        }
+        
+        /* 模拟顶层选项卡 */
+        #Tabs {
+            background: var(--v2p-color-bg-content);
+            border-bottom: 1px solid var(--v2p-color-border);
+            padding: 10px 0;
+        }
+        
+        #Tabs .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .tab {
+            background: var(--v2p-color-bg-reply);
+            color: var(--v2p-color-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 12px;
+            padding: 6px 16px;
+            margin: 0 2px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover, .tab_current {
+            background: var(--v2p-color-button-background-hover);
+            border-color: var(--v2p-color-border-darker);
+            border-radius: 12px !important;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: var(--v2p-color-background);
+            min-height: calc(100vh - var(--v2p-nav-height) - 60px);
+        }
+        
+        .demo-section {
+            background: var(--v2p-color-bg-content);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section h2 {
+            color: var(--v2p-color-foreground);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .demo-section h3 {
+            color: var(--v2p-color-foreground);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .demo-section p {
+            color: var(--v2p-color-font-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .theme-toggle-demo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: var(--v2p-color-button-background);
+            color: var(--v2p-color-button-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .theme-toggle-demo:hover {
+            background: var(--v2p-color-button-background-hover);
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle-demo i {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .success-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+        
+        .success-indicator i {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .nav-order-demo {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--v2p-color-bg-reply);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 8px;
+        }
+        
+        .nav-order-demo .order-number {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            width: 16px;
+            height: 16px;
+            background: #10b981;
+            color: white;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-order-demo .v2p-nav-btn {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="v2p-theme-dark-default" id="Wrapper">
+    <!-- 模拟V2EX顶部导航栏 -->
+    <div id="Top">
+        <div class="content">
+            <a href="/" class="logo">V2EX</a>
+            <nav class="site-nav">
+                <div class="tools">
+                    <a href="/" class="v2p-nav-btn v2p-nav-icon-only" title="首页">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Home"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/notes" class="v2p-nav-btn v2p-nav-icon-only" title="记事本">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Pen"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/planet" class="v2p-nav-btn v2p-nav-icon-only" title="Planet">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Globe"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/solana/hodl" class="v2p-nav-btn v2p-nav-icon-only" title="HODL">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Coins"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/notifications" class="v2p-nav-btn v2p-nav-icon-only" title="未读提醒">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Bell"></i>
+                        </span>
+                        <span class="v2p-unread-badge">7</span>
+                    </a>
+                    
+                    <a href="/write" class="v2p-nav-btn v2p-nav-icon-only" title="创作新主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Plus"></i>
+                        </span>
+                    </a>
+                    
+                    <button class="v2p-nav-btn v2p-nav-icon-only v2p-theme-toggle" title="切换主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Sun"></i>
+                        </span>
+                    </button>
+                    
+                    <a href="/settings" class="v2p-nav-btn v2p-nav-icon-only" title="设置">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Settings"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/member/testuser" class="v2p-user-avatar" title="测试用户">
+                        <img src="https://cdn.v2ex.com/gravatar/test?s=64&d=identicon" alt="测试用户" />
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 模拟顶层选项卡 -->
+    <div id="Tabs">
+        <div class="content">
+            <a href="#" class="tab tab_current">技术</a>
+            <a href="#" class="tab">创意</a>
+            <a href="#" class="tab">好玩</a>
+            <a href="#" class="tab">Apple</a>
+            <a href="#" class="tab">酷工作</a>
+            <a href="#" class="tab">交易</a>
+            <a href="#" class="tab">城市</a>
+            <a href="#" class="tab">问与答</a>
+            <a href="#" class="tab">最热</a>
+            <a href="#" class="tab">全部</a>
+            <a href="#" class="tab">R2</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="demo-section">
+            <h2>✅ 所有改进完成</h2>
+            <p>这个页面展示了V2EX Polish的完整改进版本，包含所有椭圆形设计和导航优化。</p>
+            
+            <div class="success-indicator">
+                <i data-lucide="CheckCircle"></i>
+                顶层选项卡椭圆形、主题按钮样式统一、Planet替换时间轴、设置移至最右
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🏷️ 椭圆形顶层选项卡</h3>
+            <p>顶层的"技术"、"创意"、"好玩"等选项卡现在都使用椭圆形背景，与节点标签保持一致的设计风格。</p>
+            <p><strong>改进：</strong></p>
+            <ul>
+                <li>✅ 减小了选项卡之间的间距（从4px改为2px）</li>
+                <li>✅ 修复了悬浮效果，保持椭圆形而不是矩形</li>
+                <li>✅ 统一的椭圆形设计语言</li>
+            </ul>
+            <p style="font-size: 14px; color: var(--v2p-color-font-secondary); margin-top: 15px;">
+                💡 将鼠标悬浮在上方的选项卡上，观察椭圆形悬浮效果
+            </p>
+        </div>
+
+        <div class="demo-section">
+            <h3>🎯 导航项顺序调整</h3>
+            <p>导航项已按照新的顺序排列，设置按钮移至最右边：</p>
+            
+            <div class="nav-order-demo">
+                <a href="/" class="v2p-nav-btn v2p-nav-icon-only" title="首页">
+                    <span class="order-number">1</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Home"></i></span>
+                </a>
+                <a href="/notes" class="v2p-nav-btn v2p-nav-icon-only" title="记事本">
+                    <span class="order-number">2</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Pen"></i></span>
+                </a>
+                <a href="/planet" class="v2p-nav-btn v2p-nav-icon-only" title="Planet">
+                    <span class="order-number">3</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Globe"></i></span>
+                </a>
+                <a href="/solana/hodl" class="v2p-nav-btn v2p-nav-icon-only" title="HODL">
+                    <span class="order-number">4</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Coins"></i></span>
+                </a>
+                <a href="/notifications" class="v2p-nav-btn v2p-nav-icon-only" title="未读提醒">
+                    <span class="order-number">5</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Bell"></i></span>
+                    <span class="v2p-unread-badge">3</span>
+                </a>
+                <a href="/write" class="v2p-nav-btn v2p-nav-icon-only" title="创作新主题">
+                    <span class="order-number">6</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Plus"></i></span>
+                </a>
+                <button class="v2p-nav-btn v2p-nav-icon-only v2p-theme-toggle" title="主题切换">
+                    <span class="order-number">7</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Sun"></i></span>
+                </button>
+                <a href="/settings" class="v2p-nav-btn v2p-nav-icon-only" title="设置">
+                    <span class="order-number">8</span>
+                    <span class="v2p-nav-icon"><i data-lucide="Settings"></i></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🌍 Planet 替换时间轴</h3>
+            <p>时间轴导航项已被Planet替换，指向 <code>/planet</code> 页面，使用地球图标。</p>
+        </div>
+
+        <div class="demo-section">
+            <h3>🎨 统一的圆形设计</h3>
+            <p>现在所有UI元素都采用了统一的圆形/椭圆形设计：</p>
+            <ul>
+                <li><strong>导航按钮：</strong>圆形按钮，暗夜模式特效</li>
+                <li><strong>顶层选项卡：</strong>椭圆形背景</li>
+                <li><strong>节点标签：</strong>椭圆形背景</li>
+                <li><strong>搜索框：</strong>圆形边框，白色描边</li>
+                <li><strong>回复数：</strong>圆形背景</li>
+                <li><strong>未读提醒：</strong>红点样式</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="theme-toggle-demo" onclick="toggleTheme()">
+        <i data-lucide="Palette"></i>
+        <span>切换主题模式</span>
+    </button>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+        
+        // 主题切换功能
+        function toggleTheme() {
+            const body = document.body;
+            const wrapper = document.getElementById('Wrapper');
+            const isNight = body.classList.contains('v2p-theme-dark-default');
+            
+            if (isNight) {
+                body.classList.remove('v2p-theme-dark-default');
+                body.classList.add('v2p-theme-light-default');
+                wrapper.classList.remove('Night');
+            } else {
+                body.classList.remove('v2p-theme-light-default');
+                body.classList.add('v2p-theme-dark-default');
+                wrapper.classList.add('Night');
+            }
+            
+            // 更新主题切换按钮图标
+            const themeToggles = document.querySelectorAll('.v2p-theme-toggle i');
+            themeToggles.forEach(toggle => {
+                toggle.setAttribute('data-lucide', isNight ? 'Moon' : 'Sun');
+            });
+            lucide.createIcons();
+        }
+        
+        // 为导航栏的主题切换按钮添加事件
+        document.querySelector('.v2p-theme-toggle').addEventListener('click', toggleTheme);
+        
+        // 模拟未读消息数量变化
+        let unreadCount = 7;
+        setInterval(() => {
+            unreadCount = Math.floor(Math.random() * 50);
+            const badges = document.querySelectorAll('.v2p-unread-badge');
+            badges.forEach(badge => {
+                if (unreadCount > 0) {
+                    const displayText = unreadCount > 99 ? '99+' : unreadCount.toString();
+                    badge.textContent = displayText;
+                    badge.style.display = 'inline-flex';
+                    
+                    // 根据数字大小调整样式
+                    if (unreadCount > 9) {
+                        badge.classList.add('v2p-unread-badge-large');
+                    } else {
+                        badge.classList.remove('v2p-unread-badge-large');
+                    }
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }, 4000);
+    </script>
+</body>
+</html>

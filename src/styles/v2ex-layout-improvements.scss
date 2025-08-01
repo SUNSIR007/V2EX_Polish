@@ -1,0 +1,419 @@
+/* V2EX 布局优化样式 */
+
+/* 1. 帖子间距紧凑化 */
+#Main {
+  .cell.item {
+    margin-bottom: 8px !important; /* 减少帖子间距 */
+    
+    &:last-child {
+      margin-bottom: 0 !important;
+    }
+  }
+  
+  .sep20 {
+    height: 12px !important; /* 减少分隔符高度 */
+  }
+  
+  .box {
+    .cell {
+      padding: 12px 15px !important; /* 减少内边距 */
+    }
+  }
+}
+
+/* 2. 隐藏右侧栏 */
+#Rightbar {
+  display: none !important;
+}
+
+/* 调整主内容区域宽度以填充右侧空间 */
+#Wrapper .content {
+  #Main {
+    max-width: none !important;
+    flex: 1 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* 3. 导航栏用户信息重新布局 */
+#Top {
+  .content {
+    position: relative;
+    
+    .site-nav {
+      .tools {
+        gap: 12px 20px !important;
+        align-items: center;
+        
+        /* 隐藏原有的导航链接 */
+        > a:not(.v2p-nav-btn):not(.v2p-user-avatar),
+        > .top:not(.v2p-nav-btn) {
+          display: none !important;
+        }
+      }
+    }
+  }
+  
+  /* 新的用户头像样式 */
+  .v2p-user-avatar {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--v2p-color-border);
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: var(--v2p-color-foreground);
+      transform: scale(1.05);
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  /* 新的导航按钮样式 */
+  .v2p-nav-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--v2p-color-button-foreground);
+    background-color: var(--v2p-color-button-background);
+    border: 1px solid var(--v2p-color-border);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--v2p-color-button-foreground-hover);
+      background-color: var(--v2p-color-button-background-hover);
+      border-color: var(--v2p-color-border-darker);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    &.v2p-nav-icon-only {
+      width: 32px;
+      padding: 0;
+      border-radius: 50% !important;
+
+      .v2p-nav-text {
+        display: none;
+      }
+    }
+
+    .v2p-nav-icon {
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      i {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .v2p-nav-text {
+      font-size: 13px;
+      margin-left: 2px;
+    }
+
+    /* 未读提醒徽章 - 红点样式 */
+    .v2p-unread-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0;
+      font-size: 10px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #ef4444;
+      border-radius: 50%;
+      border: 2px solid var(--v2p-color-bg-content);
+      z-index: 10;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      /* 当数字超过9时，调整为椭圆形 */
+      &.v2p-unread-badge-large {
+        min-width: 20px;
+        padding: 0 4px;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  /* 主题切换按钮继承通用样式 */
+}
+
+/* 4. 搜索框美化 */
+#search-container {
+  position: relative;
+  height: 36px !important;
+  margin: 0 20px !important;
+  background-color: var(--v2p-color-bg-input) !important;
+  border: 1px solid var(--v2p-color-input-border) !important;
+  border-radius: 18px !important;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: var(--v2p-color-border-darker);
+  }
+  
+  &.active,
+  &:focus-within {
+    border-color: var(--v2p-color-accent-400) !important;
+    background-color: var(--v2p-color-bg-search-active) !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+  }
+  
+  &::before {
+    top: 50% !important;
+    left: 12px !important;
+    transform: translateY(-50%) !important;
+    width: 16px !important;
+    height: 16px !important;
+    background-size: 16px 16px !important;
+    opacity: 0.5 !important;
+    transition: opacity 0.2s ease;
+  }
+  
+  &:hover::before,
+  &.active::before,
+  &:focus-within::before {
+    opacity: 0.7 !important;
+  }
+  
+  #q {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 16px 0 40px !important;
+    font-size: 14px !important;
+    color: var(--v2p-color-foreground) !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 8px !important;
+    outline: none !important;
+    
+    &::placeholder {
+      color: var(--v2p-color-font-quaternary) !important;
+    }
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  #Top {
+    .content {
+      .site-nav .tools {
+        gap: 8px 12px !important;
+        
+        .v2p-nav-btn {
+          height: 28px;
+          padding: 0 6px;
+          font-size: 13px;
+
+          &.v2p-nav-icon-only {
+            width: 28px;
+            border-radius: 50% !important;
+          }
+
+          .v2p-nav-icon {
+            width: 14px;
+            height: 14px;
+          }
+
+          .v2p-nav-text {
+            font-size: 12px;
+          }
+
+          .v2p-unread-badge {
+            min-width: 14px;
+            height: 14px;
+            font-size: 9px;
+            top: -5px;
+            right: -5px;
+          }
+        }
+        
+        .v2p-user-avatar {
+          width: 28px;
+          height: 28px;
+        }
+      }
+    }
+  }
+  
+  #search-container {
+    height: 32px !important;
+    margin: 0 15px !important;
+    
+    #q {
+      padding: 0 12px 0 36px !important;
+      font-size: 13px !important;
+    }
+    
+    &::before {
+      left: 10px !important;
+      width: 14px !important;
+      height: 14px !important;
+      background-size: 14px 14px !important;
+    }
+  }
+}
+
+/* 帖子回复数圆形背景 */
+.cell.item {
+  .count_livid {
+    border-radius: 50% !important;
+    min-width: 28px !important;
+    height: 28px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    padding: 0 !important;
+
+    /* 确保文字居中 */
+    line-height: 1 !important;
+    text-align: center !important;
+  }
+}
+
+/* 节点背景椭圆形 */
+.node,
+a.node,
+.item_node,
+a.item_node,
+.tag,
+a.tag,
+.topic_tag,
+a.topic_tag {
+  border-radius: 12px !important;
+  padding: 4px 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  transition: all 0.2s ease !important;
+}
+
+/* 顶层选项卡椭圆形背景 */
+#Tabs a,
+.tab,
+.tab_current,
+.tab_unfocus {
+  border-radius: 12px !important;
+  padding: 6px 16px !important;
+  margin: 0 2px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  transition: all 0.2s ease !important;
+
+  /* 悬浮效果也保持椭圆形 */
+  &:hover {
+    border-radius: 12px !important;
+    background-color: var(--v2p-color-button-background-hover) !important;
+    border-color: var(--v2p-color-border-darker) !important;
+    text-decoration: none !important;
+  }
+}
+
+/* 更具体的选择器确保覆盖V2EX原有样式 */
+#Tabs .tab:hover,
+#Tabs .tab_current:hover,
+#Tabs .tab_unfocus:hover,
+#Tabs a:hover,
+#Tabs a.tab:hover,
+#Tabs a.tab_current:hover,
+#Tabs a.tab_unfocus:hover,
+.box #Tabs .tab:hover,
+.box #Tabs a:hover,
+body #Tabs .tab:hover,
+body #Tabs a:hover {
+  border-radius: 12px !important;
+  background-color: var(--v2p-color-button-background-hover) !important;
+  border-color: var(--v2p-color-border-darker) !important;
+}
+
+/* 使用CSS属性选择器进一步确保覆盖 */
+#Tabs [class*="tab"]:hover {
+  border-radius: 12px !important;
+}
+
+/* 针对可能的内联样式覆盖 */
+#Tabs * {
+  &:hover {
+    border-radius: 12px !important;
+  }
+}
+
+/* 强制覆盖所有可能的悬浮状态 */
+#Tabs a,
+#Tabs .tab,
+#Tabs .tab_current,
+#Tabs .tab_unfocus {
+  &,
+  &:hover,
+  &:focus,
+  &:active,
+  &:visited {
+    border-radius: 12px !important;
+  }
+}
+
+/* 暗色主题下的特殊调整 */
+body.v2p-theme-dark-default,
+.v2p-theme-dark-default,
+#Wrapper.Night {
+  #search-container {
+    &.active,
+    &:focus-within {
+      border-color: #ffffff !important;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+    }
+  }
+
+  /* 暗夜模式下的导航按钮样式 */
+  #Top .v2p-nav-btn {
+    background-color: #000000 !important;
+    border-color: #333333 !important;
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: #ffffff !important;
+      border-color: #ffffff !important;
+      color: #000000 !important;
+      transform: translateY(-1px) scale(1.05);
+    }
+  }
+
+  /* 主题切换按钮在暗夜模式下继承通用样式 */
+  #Top .v2p-theme-toggle {
+    /* 继承通用的导航按钮样式，不需要特殊处理 */
+  }
+}

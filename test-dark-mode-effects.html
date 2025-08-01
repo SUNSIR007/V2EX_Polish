@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2EX Polish 暗夜模式特效测试</title>
+    <link rel="stylesheet" href="extension/css/v2ex-theme-var.css">
+    <link rel="stylesheet" href="extension/css/v2ex-theme-dark.css">
+    <link rel="stylesheet" href="extension/css/v2ex-layout-improvements.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, sans-serif;
+            transition: all 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        /* 模拟V2EX的顶部导航栏 */
+        #Top {
+            height: var(--v2p-nav-height);
+            background-color: var(--v2p-color-bg-content);
+            border-bottom: 1px solid var(--v2p-color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        #Top .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .site-nav {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tools {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--v2p-color-foreground);
+            text-decoration: none;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: var(--v2p-color-background);
+            min-height: calc(100vh - var(--v2p-nav-height));
+        }
+        
+        .demo-section {
+            background: var(--v2p-color-bg-content);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section h2 {
+            color: var(--v2p-color-foreground);
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .demo-section h3 {
+            color: var(--v2p-color-foreground);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .demo-section p {
+            color: var(--v2p-color-font-secondary);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .feature-highlight {
+            background: var(--v2p-color-bg-reply);
+            border-left: 4px solid #10b981;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .feature-highlight strong {
+            color: var(--v2p-color-foreground);
+        }
+        
+        .theme-toggle-demo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: var(--v2p-color-button-background);
+            color: var(--v2p-color-button-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .theme-toggle-demo:hover {
+            background: var(--v2p-color-button-background-hover);
+            transform: translateY(-2px);
+        }
+        
+        .theme-toggle-demo i {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .nav-demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .nav-demo-item {
+            background: var(--v2p-color-bg-reply);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .nav-demo-item h4 {
+            color: var(--v2p-color-foreground);
+            margin: 0 0 15px 0;
+        }
+        
+        .nav-demo-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .effect-description {
+            background: var(--v2p-color-bg-block);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .effect-description ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .effect-description li {
+            color: var(--v2p-color-font-secondary);
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body class="v2p-theme-dark-default" id="Wrapper">
+    <!-- 模拟V2EX顶部导航栏 -->
+    <div id="Top">
+        <div class="content">
+            <a href="/" class="logo">V2EX</a>
+            <nav class="site-nav">
+                <div class="tools">
+                    <a href="/" class="v2p-nav-btn v2p-nav-icon-only" title="首页">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Home"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/notes" class="v2p-nav-btn v2p-nav-icon-only" title="记事本">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="notebook-pen"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/timeline" class="v2p-nav-btn v2p-nav-icon-only" title="时间轴">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Clock"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/settings" class="v2p-nav-btn v2p-nav-icon-only" title="设置">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Settings"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/solana/tips" class="v2p-nav-btn v2p-nav-icon-only" title="SOL打赏记录">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Coins"></i>
+                        </span>
+                    </a>
+
+                    <a href="/solana/hodl" class="v2p-nav-btn v2p-nav-icon-only" title="HODL">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="TrendingUp"></i>
+                        </span>
+                    </a>
+                    
+                    <a href="/notifications" class="v2p-nav-btn v2p-nav-icon-only" title="未读提醒">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Bell"></i>
+                        </span>
+                        <span class="v2p-unread-badge">5</span>
+                    </a>
+                    
+                    <a href="/write" class="v2p-nav-btn v2p-nav-icon-only" title="创作新主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Plus"></i>
+                        </span>
+                    </a>
+                    
+                    <button class="v2p-nav-btn v2p-nav-icon-only v2p-theme-toggle" title="切换主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Sun"></i>
+                        </span>
+                    </button>
+                    
+                    <a href="/member/testuser" class="v2p-user-avatar" title="测试用户">
+                        <img src="https://cdn.v2ex.com/gravatar/test?s=64&d=identicon" alt="测试用户" />
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="demo-section">
+            <h2>🌙 暗夜模式导航栏特效演示</h2>
+            <p>这个页面展示了V2EX Polish在暗夜模式下的特殊导航栏效果。</p>
+            
+            <div class="feature-highlight">
+                <strong>特效说明：</strong>在暗夜模式下，导航栏按钮具有独特的视觉效果，提供更好的用户体验。
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🎯 主要特效</h3>
+            <div class="effect-description">
+                <h4>按钮样式变化：</h4>
+                <ul>
+                    <li><strong>默认状态：</strong>纯黑色背景 (#000000)，白色图标</li>
+                    <li><strong>悬停状态：</strong>白色背景，黑色图标，圆形形状</li>
+                    <li><strong>动画效果：</strong>平滑的颜色过渡和形状变化</li>
+                    <li><strong>缩放效果：</strong>悬停时轻微放大和上移</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🔧 功能按钮</h3>
+            <div class="nav-demo-grid">
+                <div class="nav-demo-item">
+                    <h4>导航功能</h4>
+                    <div class="nav-demo-buttons">
+                        <a href="/" class="v2p-nav-btn v2p-nav-icon-only" title="首页">
+                            <span class="v2p-nav-icon"><i data-lucide="Home"></i></span>
+                        </a>
+                        <a href="/notes" class="v2p-nav-btn v2p-nav-icon-only" title="记事本">
+                            <span class="v2p-nav-icon"><i data-lucide="notebook-pen"></i></span>
+                        </a>
+                        <a href="/timeline" class="v2p-nav-btn v2p-nav-icon-only" title="时间轴">
+                            <span class="v2p-nav-icon"><i data-lucide="Clock"></i></span>
+                        </a>
+                        <a href="/settings" class="v2p-nav-btn v2p-nav-icon-only" title="设置">
+                            <span class="v2p-nav-icon"><i data-lucide="Settings"></i></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-demo-item">
+                    <h4>操作功能</h4>
+                    <div class="nav-demo-buttons">
+                        <a href="/solana/tips" class="v2p-nav-btn v2p-nav-icon-only" title="SOL打赏记录">
+                            <span class="v2p-nav-icon"><i data-lucide="Coins"></i></span>
+                        </a>
+                        <a href="/solana/hodl" class="v2p-nav-btn v2p-nav-icon-only" title="HODL">
+                            <span class="v2p-nav-icon"><i data-lucide="TrendingUp"></i></span>
+                        </a>
+                        <a href="/notifications" class="v2p-nav-btn v2p-nav-icon-only" title="未读提醒">
+                            <span class="v2p-nav-icon"><i data-lucide="Bell"></i></span>
+                            <span class="v2p-unread-badge">3</span>
+                        </a>
+                        <a href="/write" class="v2p-nav-btn v2p-nav-icon-only" title="创作新主题">
+                            <span class="v2p-nav-icon"><i data-lucide="Plus"></i></span>
+                        </a>
+                        <button class="v2p-nav-btn v2p-nav-icon-only v2p-theme-toggle" title="主题切换">
+                            <span class="v2p-nav-icon"><i data-lucide="Sun"></i></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>💡 使用说明</h3>
+            <p><strong>悬停测试：</strong>将鼠标悬停在上方导航栏的任意按钮上，观察以下效果：</p>
+            <div class="effect-description">
+                <ul>
+                    <li>按钮背景从黑色变为白色</li>
+                    <li>图标颜色从白色变为黑色</li>
+                    <li>按钮形状从方形变为圆形</li>
+                    <li>按钮轻微放大和上移</li>
+                    <li>所有变化都有平滑的动画过渡</li>
+                </ul>
+            </div>
+            
+            <p><strong>主题切换：</strong>点击右下角的主题切换按钮可以在浅色和深色主题之间切换，观察按钮样式的变化。</p>
+        </div>
+    </div>
+
+    <button class="theme-toggle-demo" onclick="toggleTheme()">
+        <i data-lucide="Palette"></i>
+        <span>切换主题模式</span>
+    </button>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+        
+        // 主题切换功能
+        function toggleTheme() {
+            const body = document.body;
+            const wrapper = document.getElementById('Wrapper');
+            const isNight = body.classList.contains('v2p-theme-dark-default');
+            
+            if (isNight) {
+                body.classList.remove('v2p-theme-dark-default');
+                body.classList.add('v2p-theme-light-default');
+                wrapper.classList.remove('Night');
+            } else {
+                body.classList.remove('v2p-theme-light-default');
+                body.classList.add('v2p-theme-dark-default');
+                wrapper.classList.add('Night');
+            }
+            
+            // 更新主题切换按钮图标
+            const themeToggles = document.querySelectorAll('.v2p-theme-toggle i');
+            themeToggles.forEach(toggle => {
+                toggle.setAttribute('data-lucide', isNight ? 'Moon' : 'Sun');
+            });
+            lucide.createIcons();
+        }
+        
+        // 为导航栏的主题切换按钮添加事件
+        document.querySelector('.v2p-theme-toggle').addEventListener('click', toggleTheme);
+        
+        // 模拟未读消息数量变化
+        let unreadCount = 5;
+        setInterval(() => {
+            unreadCount = Math.floor(Math.random() * 10);
+            const badges = document.querySelectorAll('.v2p-unread-badge');
+            badges.forEach(badge => {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount > 9 ? '9+' : unreadCount.toString();
+                    badge.style.display = 'inline-flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+        }, 3000);
+    </script>
+</body>
+</html>

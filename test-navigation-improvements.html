@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2EX Polish 导航栏改进测试</title>
+    <link rel="stylesheet" href="extension/css/v2ex-theme-var.css">
+    <link rel="stylesheet" href="extension/css/v2ex-theme-dark.css">
+    <link rel="stylesheet" href="extension/css/v2ex-layout-improvements.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        /* 模拟V2EX的顶部导航栏 */
+        #Top {
+            height: var(--v2p-nav-height);
+            background-color: var(--v2p-color-bg-content);
+            border-bottom: 1px solid var(--v2p-color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        #Top .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .site-nav {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tools {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--v2p-color-foreground);
+            text-decoration: none;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--v2p-color-background);
+            min-height: calc(100vh - var(--v2p-nav-height));
+        }
+        
+        .demo-section {
+            background: var(--v2p-color-bg-content);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .demo-section h3 {
+            color: var(--v2p-color-foreground);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .demo-section p {
+            color: var(--v2p-color-font-secondary);
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            color: var(--v2p-color-font-secondary);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--v2p-color-border);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .nav-demo {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .theme-toggle-demo {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--v2p-color-button-background);
+            color: var(--v2p-color-button-foreground);
+            border: 1px solid var(--v2p-color-border);
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.2s ease;
+        }
+        
+        .theme-toggle-demo:hover {
+            background: var(--v2p-color-button-background-hover);
+            transform: translateY(-2px);
+        }
+        
+        .icon-demo {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--v2p-color-bg-reply);
+            border-radius: 6px;
+            margin: 4px;
+            font-size: 14px;
+            color: var(--v2p-color-foreground);
+        }
+        
+        .icon-demo i {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+<body class="v2p-theme-dark-default">
+    <!-- 模拟V2EX顶部导航栏 -->
+    <div id="Top">
+        <div class="content">
+            <a href="/" class="logo">V2EX</a>
+            <nav class="site-nav">
+                <div class="tools">
+                    <!-- 新的导航按钮将在这里动态添加 -->
+                    <a href="/" class="v2p-nav-btn v2p-nav-icon-only" title="首页">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Home"></i>
+                        </span>
+                    </a>
+
+                    <a href="/notes" class="v2p-nav-btn v2p-nav-icon-only" title="记事本">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="notebook-pen"></i>
+                        </span>
+                    </a>
+
+                    <a href="/timeline" class="v2p-nav-btn v2p-nav-icon-only" title="时间轴">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Clock"></i>
+                        </span>
+                    </a>
+
+                    <a href="/settings" class="v2p-nav-btn v2p-nav-icon-only" title="设置">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Settings"></i>
+                        </span>
+                    </a>
+
+                    <a href="/balance/log" class="v2p-nav-btn v2p-nav-icon-only" title="SOL打赏记录">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Coins"></i>
+                        </span>
+                    </a>
+
+                    <a href="/notifications" class="v2p-nav-btn v2p-nav-icon-only" title="未读提醒">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Bell"></i>
+                        </span>
+                        <span class="v2p-unread-badge">3</span>
+                    </a>
+
+                    <a href="/write" class="v2p-nav-btn v2p-nav-icon-only" title="创作新主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Plus"></i>
+                        </span>
+                    </a>
+
+                    <button class="v2p-nav-btn v2p-nav-icon-only v2p-theme-toggle" title="切换主题">
+                        <span class="v2p-nav-icon">
+                            <i data-lucide="Sun"></i>
+                        </span>
+                    </button>
+                    
+                    <a href="/member/testuser" class="v2p-user-avatar" title="测试用户">
+                        <img src="https://cdn.v2ex.com/gravatar/test?s=64&d=identicon" alt="测试用户" />
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="demo-section">
+            <h3>🎯 导航栏改进功能展示</h3>
+            <p>新的导航栏设计更加简洁现代，所有功能都用图标表示，提供更好的用户体验。</p>
+            
+            <ul class="feature-list">
+                <li><strong>图标化导航</strong> - 所有导航项都使用直观的图标替代文字</li>
+                <li><strong>用户头像</strong> - 圆形头像显示在右上角，点击进入用户页面</li>
+                <li><strong>主题切换</strong> - 内置主题切换按钮，支持一键切换明暗主题</li>
+                <li><strong>未读提醒</strong> - 带有红色徽章显示未读消息数量</li>
+                <li><strong>打赏记录</strong> - 新增打赏记录快速访问入口</li>
+                <li><strong>响应式设计</strong> - 在不同屏幕尺寸下自动适配</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h3>🔧 导航功能说明</h3>
+            <div class="nav-demo">
+                <div class="icon-demo">
+                    <i data-lucide="Home"></i>
+                    <span>首页</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="notebook-pen"></i>
+                    <span>记事本</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Clock"></i>
+                    <span>时间轴</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Settings"></i>
+                    <span>设置</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Coins"></i>
+                    <span>SOL打赏记录</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Bell"></i>
+                    <span>未读提醒</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Plus"></i>
+                    <span>创作新主题</span>
+                </div>
+                <div class="icon-demo">
+                    <i data-lucide="Sun"></i>
+                    <span>主题切换</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🌙 主题切换功能</h3>
+            <p>点击导航栏中的主题切换按钮或右下角的按钮来体验明暗主题切换效果。</p>
+            <p>主题切换会自动更新按钮图标：</p>
+            <ul>
+                <li>🌙 月亮图标 - 当前为浅色主题，点击切换到深色主题</li>
+                <li>☀️ 太阳图标 - 当前为深色主题，点击切换到浅色主题</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h3>📱 响应式设计</h3>
+            <p>导航栏在不同屏幕尺寸下会自动调整：</p>
+            <ul class="feature-list">
+                <li>桌面端：32px 高度的按钮，16px 图标</li>
+                <li>移动端：28px 高度的按钮，14px 图标</li>
+                <li>间距和徽章大小也会相应调整</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="theme-toggle-demo" onclick="toggleTheme()">
+        <i data-lucide="palette"></i>
+        切换主题
+    </button>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+        
+        // 主题切换功能
+        function toggleTheme() {
+            const body = document.body;
+            const isNight = body.classList.contains('v2p-theme-dark-default');
+            
+            if (isNight) {
+                body.classList.remove('v2p-theme-dark-default');
+                body.classList.add('v2p-theme-light-default');
+            } else {
+                body.classList.remove('v2p-theme-light-default');
+                body.classList.add('v2p-theme-dark-default');
+            }
+            
+            // 更新主题切换按钮图标
+            const themeToggle = document.querySelector('.v2p-theme-toggle i');
+            if (themeToggle) {
+                themeToggle.setAttribute('data-lucide', isNight ? 'Moon' : 'Sun');
+                lucide.createIcons();
+            }
+        }
+        
+        // 为导航栏的主题切换按钮添加事件
+        document.querySelector('.v2p-theme-toggle').addEventListener('click', toggleTheme);
+        
+        // 模拟未读消息数量变化
+        let unreadCount = 3;
+        setInterval(() => {
+            unreadCount = Math.floor(Math.random() * 10);
+            const badge = document.querySelector('.v2p-unread-badge');
+            if (badge) {
+                if (unreadCount > 0) {
+                    badge.textContent = unreadCount > 9 ? '9+' : unreadCount.toString();
+                    badge.style.display = 'inline-flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
