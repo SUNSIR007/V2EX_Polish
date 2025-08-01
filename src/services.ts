@@ -228,28 +228,7 @@ export async function unfavorite(url: string): Promise<void> {
   throw new Error('取消收藏失败')
 }
 
-/**
- * 获取回复的预览渲染内容。
- */
-export async function getCommentPreview(params: {
-  text: string
-  syntax: 'default' | 'markdown'
-}): Promise<string> {
-  const formData = new FormData()
-  formData.append('text', params.text)
 
-  const res = await fetch(`${V2EX_ORIGIN}/preview/${params.syntax}`, {
-    method: 'POST',
-    body: formData,
-  })
-
-  if (res.ok) {
-    const renderedContent = await res.text()
-    return renderedContent
-  } else {
-    throw new Error('预览失败')
-  }
-}
 
 export async function getUnreadMessagesCount(): Promise<number> {
   const res = await fetch(`${V2EX.Origin}/mission`)

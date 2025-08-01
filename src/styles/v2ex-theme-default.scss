@@ -467,9 +467,6 @@ body {
   :is(
       .topic_content,
       .reply_content,
-      .v2p-topic-preview-content,
-      .v2p-topic-preview-addons,
-      .v2p-reply-preview,
       .markdown_body
     ) {
     a[href^='http'] {
@@ -843,9 +840,7 @@ body {
           }
         }
 
-        &#preview {
-          padding: 2px 5px;
-        }
+
       }
     }
   }

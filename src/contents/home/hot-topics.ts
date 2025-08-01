@@ -14,7 +14,6 @@ export function handleHotTopics() {
 
   let $todayCells = $listWrapper.find('> .cell')
   const $cell = $todayCells.eq(1).clone()
-  $cell.find('.v2p-topic-preview-btn').remove()
 
   const $text = $('<span class="v2p-topics-hot-picker-text">今日</span>')
   const $trigger = $(

@@ -44,16 +44,13 @@ body {
     }
   }
 
-  #reply-box .v2p-reply-preview {
-    @include share.text-content;
-  }
+
 }
 
 #Main,
 #Rightbar {
   .cell {
     &:hover {
-      .v2p-topic-preview-btn,
       .v2p-topic-ignore-btn {
         visibility: visible;
       }
@@ -74,15 +71,7 @@ body {
     }
   }
 
-  .v2p-topic-preview-btn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    height: 20px;
-    font-size: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 0 3px var(--v2p-color-bg-content);
-  }
+
 
   @at-root {
     .v2p-tool-box {
@@ -120,19 +109,7 @@ body {
   }
 }
 
-.v2p-topic-preview-btn {
-  cursor: pointer;
-  position: relative;
-  top: -1px;
-  margin-left: 10px;
-  font-size: 14px;
-  color: var(--v2p-color-button-foreground);
-  visibility: hidden;
-  background-color: var(--v2p-color-button-background-hover);
-  border: none;
-  border-radius: 3px;
-  outline: none;
-}
+
 
 .v2p-topic-ignore-btn {
   cursor: pointer;
@@ -140,148 +117,9 @@ body {
   visibility: hidden;
 }
 
-.v2p-topic-preview {
-  @include share.text-content;
 
-  padding: 25px;
 
-  @at-root {
-    // MARK: 预览骨架屏。
-    .v2p-tpr-loading {
-      --tpr-h: 30px;
-      --tpr-h-p: 22px;
 
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 25px;
-
-      .v2p-tpr {
-        background-color: var(--v2p-color-bg-tpr);
-        border-radius: 5px;
-      }
-
-      .v2p-tpr-info {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-
-        @at-root {
-          .v2p-tpr-info-avatar {
-            width: var(--tpr-h);
-            height: var(--tpr-h);
-          }
-
-          .v2p-tpr-info-text {
-            width: 50%;
-            height: var(--tpr-h);
-          }
-        }
-      }
-
-      .v2p-tpr-content {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 15px 0 20px;
-
-        .v2p-tpr-content-p {
-          height: var(--tpr-h-p);
-        }
-      }
-
-      .v2p-tpr-cmt {
-        display: flex;
-        gap: 15px;
-        padding-top: 15px;
-        border-top: 1px solid var(--v2p-color-border);
-
-        .v2p-tpr-cmt-avatar {
-          width: 50px;
-          height: 50px;
-        }
-
-        .v2p-tpr-cmt-right {
-          display: flex;
-          flex: 1;
-          flex-direction: column;
-          gap: 10px;
-
-          .v2p-tpr-cmt-header {
-            width: 50%;
-            height: var(--tpr-h);
-          }
-
-          .v2p-tpr-cmt-p {
-            height: var(--tpr-h-p);
-          }
-        }
-      }
-    }
-
-    .v2p-tp-info-bar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .v2p-tp-info,
-    .v2p-tp-read {
-      overflow: hidden;
-      display: inline-flex;
-      gap: 20px;
-      align-items: center;
-      padding: 5px 10px;
-      font-size: 13px;
-      background-color: var(--v2p-color-button-background);
-      border-radius: 5px;
-    }
-
-    .v2p-tp-read {
-      cursor: pointer;
-      user-select: none;
-      gap: 4px;
-
-      &:hover {
-        background-color: var(--v2p-color-button-background-hover);
-      }
-    }
-
-    .v2p-tp-read-icon {
-      width: 16px;
-      height: 16px;
-    }
-
-    .v2p-tp-member {
-      display: inline-flex;
-      gap: 5px;
-      align-items: center;
-      font-weight: bold;
-    }
-
-    .v2p-tp-avatar {
-      width: 20px;
-      height: 20px;
-      background-color: var(--v2p-color-bg-avatar);
-      border-radius: 3px;
-    }
-
-    .v2p-topic-preview-addons {
-      margin-top: 30px;
-    }
-  }
-}
-
-#Main.v2p-topic-preview > .box {
-  border: 1px solid var(--v2p-color-border);
-}
-
-a.v2p-topic-preview-title-link {
-  &:hover {
-    @include share.link;
-  }
-}
 
 .v2p-dot {
   margin: 0 8px;
@@ -379,12 +217,6 @@ a.v2p-topic-preview-title-link {
       overscroll-behavior-y: contain; // 防止滚动穿透。
       flex: 1;
       outline: none;
-
-      // 调整预览下的评论样式。
-      #Main.v2p-topic-preview > .box {
-        border: none;
-        box-shadow: none;
-      }
     }
 
     .v2p-modal-comments {
@@ -1040,16 +872,7 @@ a.v2p-topic-preview-title-link {
   }
 }
 
-.v2p-preview-retry,
-.v2p-topic-preview-retry,
-a.v2p-preview-retry,
-a.v2p-topic-preview-retry,
-a:link.v2p-preview-retry,
-a:link.v2p-topic-preview-retry {
-  @include share.underline-text;
 
-  cursor: pointer;
-}
 
 .v2p-indent {
   .v2p-member-ref {
